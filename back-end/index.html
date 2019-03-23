@@ -1,0 +1,119 @@
+<html>
+
+<head>
+    <title>Persistent Push Notification Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            margin: 0 auto;
+            min-width: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Register first</h1>
+        <form>
+            <input type="text" placeholder="Name" id="name">
+            <input type="submit" onclick="register(event)">
+        </form>
+    </div>
+</body>
+<script>
+
+    //if serviceWorker is supported start the process
+    //of registering serverWorker and push service
+    if ('serviceWorker' in navigator) {
+        send().catch((err) => console.log(err));
+    }
+
+    //will be populated by the Push Manager
+    var subscription = "";
+
+    //the private key should be present on server
+    //you can generate VAPID keys online. there are many providers.
+    const publicVapidKey = "BB5TSKCv20m7fXlDs_IbCCr6xuto-GCjNbeGReyWbpkp44997ZO-oIZp3PlR2kW2ImMUPRRYB2wEBVUZYTPtDbU";
+
+    //register service worker and push manager
+    async function send() {
+
+        console.log("Registering service worker...");
+        const register = await navigator.serviceWorker.register("http://localhost:8080/sw.js", {
+            scope: "/"
+        });
+        console.log("Service Worker Registered!");
+
+        console.log("Registering Push Service...");
+        subscription = await register.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        });
+        console.log("Push Service Registered!");
+    }
+
+    //function needed to encrypt the public VAPID key
+    function urlBase64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, "+")
+            .replace(/_/g, "/");
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+    //register user and show notification push button
+    async function register(e) {
+        e.preventDefault();
+
+        //creating the payload for the back-end service
+        let payload = { subscription: subscription };
+
+        console.log('here');
+
+        //register user in the back-end service
+        await fetch("http://localhost:8080/subscribe", {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+                "content-type": "application/json",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJiaXNhZ2FsZXhzdGVmYW5AZ21haWwuY29tIiwiaWF0IjoxNTUzMzY0Nzg0LCJleHAiOjE1NTM5Njk1ODR9.XymjEWXo_Dpj9MKgwr01IQwklesDWriiI8-Sg5Bx2Kc"
+            }
+        }).then((result) => {
+            console.log('User Registered');
+
+            //display the send notification button if it doesn't already exist
+            if (!document.getElementById('id')) {
+                let sendNotification = document.createElement("button");
+                sendNotification.id = "send";
+                sendNotification.innerText = "Send notification";
+                sendNotification.onclick = (e) => sendNot(e);
+                document.getElementsByClassName("container")[0].appendChild(sendNotification);
+            }
+        })
+    }
+
+    //send a request to back-end to require a push notification
+    async function sendNot(e) {
+        console.log("Pushing notification...");
+        await fetch("http://localhost:8080/notification", {
+            method: "POST",
+            body: JSON.stringify(subscription),
+            headers: {
+                "content-type": "application/json",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJiaXNhZ2FsZXhzdGVmYW5AZ21haWwuY29tIiwiaWF0IjoxNTUzMzY0Nzg0LCJleHAiOjE1NTM5Njk1ODR9.XymjEWXo_Dpj9MKgwr01IQwklesDWriiI8-Sg5Bx2Kc"
+            }
+        }).then((result) => {
+            console.log('Notification pushed!');
+        })
+    }
+</script>
+
+</html>
