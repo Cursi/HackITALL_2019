@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
+
 
 @Component({
   selector: 'app-home',
@@ -6,5 +9,16 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+
+  constructor(private googlePlus: GooglePlus) {
+
+  }
+
+  loginGoogle() {
+    alert('test');
+    this.googlePlus.login({})
+      .then(res => console.log(res))
+      .catch(err => alert(err));
+  }
 
 }

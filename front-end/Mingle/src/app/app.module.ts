@@ -9,6 +9,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -16,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
   providers: [
     StatusBar,
     SplashScreen,
+    GooglePlus,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
