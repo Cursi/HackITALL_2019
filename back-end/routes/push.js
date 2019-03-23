@@ -78,11 +78,13 @@ module.exports.sendNotifications = async (req, res) => {
 
     const allUserspayload = JSON.stringify({
         title: req.body.title, content: req.body.content,
-        coordinates: currentPlace.coordinates
+        coordinates: currentPlace.coordinates,
+        place: currentPlace.name, place_id: currentPlace.id
     });
 
     const favoriteUsersPayload = JSON.stringify({
         title: req.body.title, content: req.body.content,
+        place: currentPlace.name, place_id: currentPlace.id
     });
 
     //push to favorite users
