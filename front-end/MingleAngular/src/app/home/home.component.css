@@ -1,4 +1,32 @@
-agm-map
+#map
 {
-    height: 500px;
+    position: fixed;
+    top: 0;
+    left:0;
+    height: 100vh;
+    width: 100%;
+}
+
+#selectRangeBtn
+{
+    position: fixed;
+    bottom: 15px;
+    left: calc(50% - 60px); 
+   
+    background-color: rgb(216, 34, 89);
+    color: rgba(245, 245, 245);
+}
+
+#rangeCircle
+{
+    position: fixed;
+    left:calc(50% - 65px);
+    top:calc(50% - 65px);
+
+    width: 130px;
+    height:130px;
+
+    pointer-events: none;
+    border-radius:50%;
+    background-color:rgba(216, 34, 89, 0.5);
 }

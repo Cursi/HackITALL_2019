@@ -1,2 +1,15 @@
-<agm-map [latitude]="initialCoordinates.latitude" [longitude]="initialCoordinates.longitude" [zoom]="zoom">
-</agm-map>
+<!-- <agm-map [latitude]="mapData.initialCoordinates.latitude"
+  [longitude]="mapData.initialCoordinates.longitude"
+  [zoom]="mapData.zoom"
+  (mapClick)="mapClick($event)"
+  id="agmMap">
+</agm-map> -->
+
+<div #gmap id="map"></div>
+
+<a id="selectRangeBtn" class="waves-effect waves-light btn" (click)="SearchInRange()">
+  <i class="material-icons left">location_searching</i>
+  Search
+</a>
+
+<div id="rangeCircle"></div>

@@ -1,6 +1,8 @@
 {
   "compileOnSave": false,
-  "compilerOptions": {
+  "compilerOptions": 
+  {
+    "types":["googlemaps"],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
