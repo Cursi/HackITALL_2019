@@ -1,6 +1,8 @@
 {
   "name": "Mingle",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "2a142ed3"
 }
