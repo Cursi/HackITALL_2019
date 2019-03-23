@@ -42,11 +42,18 @@ export class HomeComponent implements OnInit
       };
       this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
       this.map.addListener("zoom_changed", () => this.ComputeRadius());
+
+      var self = this;
+
+      google.maps.event.addListenerOnce(this.map, 'bounds_changed', function()
+      {
+        self.ComputeRadius();
+      });
     });
   }
 
   SearchInRange()
-  {   
+  {
     var request = 
     {
       radius: this.currentRadius,
@@ -55,6 +62,8 @@ export class HomeComponent implements OnInit
       fields: ['formatted_address', 'geometry', 'icon', 'id', 'name', 'permanently_closed', 'photos', 'place_id', 'plus_code', 'types', 'user_ratings_total']
     };
   
+    console.log(this.map.getCenter().lat() + " " + this.map.getCenter().lng());
+
     var placeService = new google.maps.places.PlacesService(this.map);
     placeService.nearbySearch(request, (result, status) =>
     {
@@ -69,7 +78,30 @@ export class HomeComponent implements OnInit
 
   ComputeRadius()
   {
-    console.log(this.map.getZoom());
+    function degrees_to_radians(degrees)
+    {
+      var pi = Math.PI;
+      return degrees * (pi/180);
+    }
+
+    console.log(this.map.getCenter().lat() + " " + this.map.getCenter().lng());
+    console.log(this.map.getBounds().getNorthEast().lat() + " " + this.map.getBounds().getNorthEast().lng());
+    	
+    var R = 6371e3; // metres
+    var φ1 = degrees_to_radians(this.map.getCenter().lat());
+    var φ2 = degrees_to_radians(this.map.getBounds().getNorthEast().lat());
+    var Δφ = degrees_to_radians(this.map.getBounds().getNorthEast().lat()-this.map.getCenter().lat());
+    var Δλ = degrees_to_radians(this.map.getBounds().getNorthEast().lng()-this.map.getCenter().lng());
+
+    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+    var d = R * c;
+
+    this.currentRadius = d / 4;
+    console.log(this.currentRadius);
   }
 
   DebugZoom()
@@ -82,11 +114,7 @@ export class HomeComponent implements OnInit
 
   ngOnInit()
   {
-    // this.DebugZoom();
-  }
-
-  ngAfterViewInit()
-  {
     this.LoadMap();
+    // this.DebugZoom();
   }
 }
