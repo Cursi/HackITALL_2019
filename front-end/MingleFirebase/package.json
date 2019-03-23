@@ -1,5 +1,5 @@
 {
-  "name": "Mingle",
+  "name": "MingleFirebase",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@angular/common": "^7.2.2",
     "@angular/core": "^7.2.2",
+    "@angular/fire": "^5.1.2",
     "@angular/forms": "^7.2.2",
     "@angular/http": "^7.2.2",
     "@angular/platform-browser": "^7.2.2",
@@ -26,15 +27,18 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.1.0",
     "@ionic/pro": "2.0.4",
-    "cordova-android": "8.0.0",
+    "angularfire2": "^5.1.2",
+    "cordova-android": "^8.0.0",
     "cordova-plugin-device": "^2.0.2",
-    "cordova-plugin-googleplus": "^7.0.0",
+    "cordova-plugin-googleplus": "7.0.0",
+    "cordova-plugin-ionic": "5.3.0",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^3.1.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "core-js": "^2.5.4",
+    "firebase": "^5.9.1",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.29"
   },
@@ -48,13 +52,13 @@
     "@angular/compiler-cli": "~7.2.2",
     "@angular/language-service": "~7.2.2",
     "@ionic/angular-toolkit": "~1.4.0",
-    "@types/node": "~10.14.2",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~10.14.2",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~3.1.4",
+    "karma": "^4.0.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
@@ -76,7 +80,8 @@
       },
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "51684357817-1kb8egfgrkmok59ton5q8506t46l5bgu.apps.googleusercontent.com"
+        "REVERSED_CLIENT_ID": "51684357817-1kb8egfgrkmok59ton5q8506t46l5bgu.apps.googleusercontent.com",
+        "WEB_APPLICATION_CLIENT_ID": "51684357817-1kb8egfgrkmok59ton5q8506t46l5bgu.apps.googleusercontent.com"
       }
     },
     "platforms": [

@@ -1,0 +1,50 @@
+#gridWrapper
+{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100vh;
+    justify-items: center;
+    align-items: center;
+
+    background-color: rgb(216, 34, 89);
+    color: rgba(245, 245, 245);
+
+    text-align: center;
+}
+
+#backgroundImage
+{
+    position: fixed;
+    top: 0;
+    left:0;
+    opacity: 0.15;
+    width: 100%;
+    height: 100%;
+}
+
+#signInContainer
+{
+    width: 90%;
+    text-align: center;
+    font-size: 18px;
+}
+
+#googleLogo
+{
+    width: 20px;
+    vertical-align: text-bottom;
+    margin-right: 3px;
+    height: auto;
+}
+
+#signInBtn
+{
+    background-color: rgba(245, 245, 245);
+    color: #757575;
+}
+
+#appName
+{
+    font-size: 36px;
+    margin-bottom: 12px;
+}

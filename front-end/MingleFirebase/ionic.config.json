@@ -1,0 +1,8 @@
+{
+  "name": "MingleFirebase",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "e1b5aa28"
+}
