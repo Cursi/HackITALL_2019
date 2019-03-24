@@ -21,8 +21,11 @@ export class FollowersComponent implements OnInit {
     
   }
 
-  deleteOffer(element){
-    console.log(element);
+  deleteOffer(element: any){
+    this.dataService.genericRequest("/place/favorite/remove/" + element.id, "DELETE")
+    .subscribe(result => {
+      this.followers.splice(this.followers.indexOf(<never>element), 1);
+    })
   }
 
 }
