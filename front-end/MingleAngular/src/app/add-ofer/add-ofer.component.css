@@ -20,8 +20,21 @@
     float: left;
 }
 
-.deleteOffer{
-    float: right;
+.deleteOffer
+{
+    color: rgb(216, 34, 89);
     cursor: pointer;
-    padding-right: 5px;
+}
+
+#bigContainer
+{
+    width: 100%;
+    text-align: center;
+}
+
+#newOfferBtn
+{
+    margin: 0 auto;
+    margin-top:15px;
+    background-color: rgb(216, 34, 89);
 }

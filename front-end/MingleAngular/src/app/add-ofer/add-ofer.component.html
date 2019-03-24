@@ -1,16 +1,22 @@
-<div>
-  <div class="addOffer">
-    <span>+</span>
-    <span (click)="expand()">New Offer</span>
+<div id="newOfferModal" class="modal">
+    <div class="modal-content">
+        <div class="input-field col s12">
+            <textarea id="offerTextArea" class="materialize-textarea"></textarea>
+            <label for="offerTextArea">Textarea</label>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <a (click)="SendOffer()" class="modal-close waves-effect waves-green btn-flat">Add offer</a>
+    </div>
   </div>
-  <div *ngIf="expanded">
-    <input [(ngModel)]="offer">
-    <button (click)="addOffer()">Submit</button>
-  </div>
+
+<div id="bigContainer">
+  <a *ngIf="isOwner == '1'" id="newOfferBtn" data-target="newOfferModal" class="modal-trigger waves-effect waves-light btn"><i class="material-icons left">local_play</i>New offer</a>
+  <br><br>
   <div class="currentOffers">
-    <ul *ngFor="let offer of offers; let index">
-      <p>{{offer.offer}}</p>
-      <p class="deleteOffer" (click)="deleteOffer(index)">delete</p>
+    <ul *ngFor="let offer of offers; let index" class="collection with-header">
+        <li class="collection-item"><div>{{offer.offer}}<a class="secondary-content">
+        <i *ngIf="isOwner == '1'" (click)="deleteOffer(index)" class="deleteOffer material-icons">delete</i></a></div></li>
     </ul>
   </div>
 </div>

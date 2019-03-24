@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 
+declare const M: any;
+
 @Component({
   selector: 'app-add-ofer',
   templateUrl: './add-ofer.component.html',
@@ -8,6 +10,7 @@ import { DataService } from '../data.service';
 })
 export class AddOferComponent implements OnInit {
 
+  isOwner: String;
   offers = [];
   expanded = true;
   offer = "";
@@ -21,20 +24,35 @@ export class AddOferComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
+  InitModal()
+  {
+    document.addEventListener('DOMContentLoaded', function() 
+    {
+      var elems = document.querySelectorAll('.modal');
+      var instances = M.Modal.init(elems, null);
+    });
   }
 
-  expand(){
-    this.expanded = !this.expanded;
-  }
+  SendOffer()
+  {
+    this.offer = document.getElementById("offerTextArea").value;
 
-  addOffer(){
-    this.dataService.genericRequest("/offer", "POST", {offer: this.offer}).subscribe(response => {
+    this.dataService.genericRequest("/offer", "POST", {offer: this.offer}).subscribe(response => 
+      {
       this.offers.push(response["newOffer"]);
-      this.dataService.genericRequest("/notification", "POST", {title: "asd"}).subscribe(response => {
+      this.dataService.genericRequest("/notification", "POST", {title: "asd"}).subscribe(response => 
+        {
         console.log(response);
       })
-    })
+    });
+
+    document.getElementById("offerTextArea").value = "";
+  }
+
+  ngOnInit() 
+  {
+    this.InitModal();
+    this.isOwner = localStorage.getItem("owner");
   }
 
   deleteOffer(index){
