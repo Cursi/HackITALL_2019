@@ -5,15 +5,18 @@ const Place = sequelize.import("./place");
 const Credential = sequelize.import('./credential');
 const Favorite = sequelize.define("favorite", {});
 const History = sequelize.define("history", {});
+const Offer = sequelize.import("./offer");
 
-User.belongsToMany(Place, {through: Favorite, foreignKey: "User_id"});
-Place.belongsToMany(User,  {through: Favorite, foreignKey: "Place_id"})
+User.belongsToMany(Place, { through: Favorite, foreignKey: "User_id" });
+Place.belongsToMany(User, { through: Favorite, foreignKey: "Place_id" })
 
-User.belongsToMany(Place, {through: History, foreignKey: "User_id"});
-Place.belongsToMany(User,  {through: History, foreignKey: "Place_id"})
+User.belongsToMany(Place, { through: History, foreignKey: "User_id" });
+Place.belongsToMany(User, { through: History, foreignKey: "Place_id" })
 
 Place.belongsTo(User);
 Credential.belongsTo(User);
+
+Offer.belongsTo(Place);
 
 module.exports = {
     sequelize,
@@ -21,5 +24,6 @@ module.exports = {
     Place,
     Credential,
     Favorite,
-    History
+    History,
+    Offer
 }

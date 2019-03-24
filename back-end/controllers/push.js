@@ -12,8 +12,6 @@ webPush.setVapidDetails('mailto:bisagalexstefan@gmail.com', publicVapidKey, priv
 
 module.exports.subscribe = async (req, res) => {
 
-    const subscription = req.body.subscription;
-
     let cred = await Credential.findOne({
         where: {
             endpoint: subscription.endpoint
@@ -36,7 +34,6 @@ module.exports.subscribe = async (req, res) => {
 
 
 module.exports.sendNotifications = async (req, res) => {
-
     let currentPlace = await Place.findOne({
         where: {
             userId: req.user.id
@@ -47,7 +44,7 @@ module.exports.sendNotifications = async (req, res) => {
         return res.status(400).send({ message: "You are not an owner" });
     }
 
-    res.status(200).send({ message: "Sending" });
+    res.status(200).send({ message: "Sending notifications" });
 
     let favoriteUsersId = await Favorite.findAll({
         where: {
@@ -56,38 +53,19 @@ module.exports.sendNotifications = async (req, res) => {
         attributes: ['user_id']
     });
 
-    let idList = favoriteUsersId.map(user => user.dataValues.user_id);
-
-    //favorite. send to all without any dat
     let favoriteUsers = await User.findAll({
         where: {
             id: {
-                [Op.in]: idList
+                [Op.in]: favoriteUsersId.map(user => user.dataValues.user_id)
             }
         }
-    });
-
-    //not favorite. send to all with coords
-    let user = await User.findAll({
-        where: {
-            id: {
-                [Op.notIn]: idList
-            }
-        }
-    });
-
-    const allUserspayload = JSON.stringify({
-        title: req.body.title, content: req.body.content,
-        coordinates: currentPlace.coordinates,
-        place: currentPlace.name, place_id: currentPlace.id
     });
 
     const favoriteUsersPayload = JSON.stringify({
-        title: req.body.title, content: req.body.content,
+        title: currentPlace.name, content: req.body.offer,
         place: currentPlace.name, place_id: currentPlace.id
     });
 
-    //push to favorite users
     favoriteUsers.forEach(async user => {
         let credentials = await Credential.findAll({
             where: {
@@ -101,24 +79,6 @@ module.exports.sendNotifications = async (req, res) => {
 
             webPush
                 .sendNotification(subscription, favoriteUsersPayload)
-                .catch(err => console.error(err));
-        })
-    });
-
-    //push to all users
-    user.forEach(async user => {
-        let credentials = await Credential.findAll({
-            where: {
-                userId: user.id
-            }
-        });
-
-        credentials.forEach(credential => {
-            let keys = { p256dh: credential.p256, auth: credential.auth };
-            let subscription = { endpoint: credential.endpoint, expirationTime: null, keys: keys };
-
-            webPush
-                .sendNotification(subscription, allUserspayload)
                 .catch(err => console.error(err));
         })
     });

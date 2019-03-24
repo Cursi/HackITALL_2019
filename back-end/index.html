@@ -1,5 +1,6 @@
 <html>
 
+<!--Only for creating subscription data -- should be moved to Angular-->
 <head>
     <title>Persistent Push Notification Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,9 +26,7 @@
 
     //if serviceWorker is supported start the process
     //of registering serverWorker and push service
-    if ('serviceWorker' in navigator) {
-        send().catch((err) => console.log(err));
-    }
+
 
     //will be populated by the Push Manager
     var subscription = "";
@@ -40,7 +39,7 @@
     async function send() {
 
         console.log("Registering service worker...");
-        const register = await navigator.serviceWorker.register("http://localhost:8080/sw.js", {
+        const register = await navigator.serviceWorker.register("http://192.168.43.235:8080/sw.js", {
             scope: "/"
         });
         console.log("Service Worker Registered!");
@@ -51,6 +50,10 @@
             applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
         });
         console.log("Push Service Registered!");
+    }
+
+    if ('serviceWorker' in navigator) {
+        send().catch((err) => console.log(err.message));
     }
 
     //function needed to encrypt the public VAPID key
@@ -79,7 +82,7 @@
         console.log('here');
 
         //register user in the back-end service
-        await fetch("http://localhost:8080/subscribe", {
+        await fetch("http://192.168.43.235:8080/subscribe", {
             method: "POST",
             body: JSON.stringify(payload),
             headers: {
