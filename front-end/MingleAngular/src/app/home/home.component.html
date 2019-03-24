@@ -37,9 +37,9 @@
               <div class="card-image">
                 <img src="{{place.photos[0].getUrl()}}">
                 <span class="card-title">{{place.name}} (<i class="material-icons" style="vertical-align: sub">star</i><span style="vertical-align: text-top">{{place.rating}}</span>)</span>
-                <a class="followBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">notifications_active</i></a>
+                <a (click)="AddToFollow(place.id)" class="followBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">notifications_active</i></a>
                 <a (click)="OpenDirectionsLink(place.name)" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">directions</i></a>
-                <a (click)="OpenMenuLink()" style="left: 60px;" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">restaurant_menu</i></a>
+                <a (click)="OpenMenuLink(place.path)" style="left: 60px;" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">restaurant_menu</i></a>
                 <a (click)="OpenOffers(place.id)" style="left: 120px;" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">local_play</i></a>
               </div>
             </div>

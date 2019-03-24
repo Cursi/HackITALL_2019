@@ -35,7 +35,7 @@ export class AddOferComponent implements OnInit {
 
   SendOffer()
   {
-    this.offer = document.getElementById("offerTextArea").value;
+    this.offer = document.getElementById("offerTextArea")["value"];
 
     this.dataService.genericRequest("/offer", "POST", {offer: this.offer}).subscribe(response => 
       {
@@ -46,7 +46,7 @@ export class AddOferComponent implements OnInit {
       })
     });
 
-    document.getElementById("offerTextArea").value = "";
+    document.getElementById("offerTextArea")["value"] = "";
   }
 
   ngOnInit() 

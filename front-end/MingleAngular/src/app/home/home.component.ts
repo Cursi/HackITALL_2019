@@ -146,9 +146,12 @@ export class HomeComponent implements OnInit
     this.router.navigateByUrl("");
   }
 
-  AddToFollow()
+  AddToFollow(id)
   {
-
+    this.dataService.genericRequest("/place/favorite/" + id, "POST")
+    .subscribe(result => {
+      M.toast({html:result["message"], displayLength: 1000});
+    })
   }
 
   OpenDirectionsLink(data)
@@ -156,9 +159,10 @@ export class HomeComponent implements OnInit
     window.open("https://maps.google.com/?q=" + data);
   }
 
-  OpenMenuLink()
+  OpenMenuLink(path)
   {
-    window.open(this.dataService.metaConsts.baseURL + "/menu");
+    console.log(path);
+    window.open(this.dataService.metaConsts.baseURL + "/menu/" + path);
   }
 
   OpenOffers(id)
