@@ -73,12 +73,30 @@ export class HomeComponent implements OnInit
     {
       if (status === google.maps.places.PlacesServiceStatus.OK)
       {
-        console.log(result);
-        this.currentPlaces = result;
-        this.searchModalInstance[0].open();
-        document.getElementById("modal1").click();
+        this.dataService.genericRequest("/place/all/filter", "POST", {places: result})
+        .subscribe(resp => {
+          if(resp["places"].length){
+            this.searchModalInstance[0].open();
+            this.currentPlaces = this.MergeResults(result, resp);
+  
+            document.getElementById("modal1").click();
+          }
+        })
+       
       }
     });
+  }
+
+  MergeResults(result: any, resp: any) : any {
+    for(let i = 0; i < resp.places.length; i++){
+      for(let j = 0; j < result.length; j++){
+        if(resp.places[i].mapsId === result[j].id){
+          resp.places[i].photos = result[j].photos;
+        }
+      }
+    }
+
+    return resp.places;
   }
 
   ComputeRadius()
@@ -141,6 +159,12 @@ export class HomeComponent implements OnInit
   OpenMenuLink()
   {
     window.open(this.dataService.metaConsts.baseURL + "/menu");
+  }
+
+  OpenOffers(id)
+  {
+    localStorage.setItem("offerId", id);
+    this.router.navigateByUrl("/offers");
   }
 
   ngOnInit()
