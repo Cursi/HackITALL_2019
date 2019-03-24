@@ -7,20 +7,15 @@ self.addEventListener("push", e => {
   self.registration.showNotification(data.title, {
     body: data.content,
     icon: "https://banner2.kisspng.com/20171217/8a2/envelope-png-5a3744625f6bf9.6827994515135714263909.jpg",
-    //uniquely identifies a notification
-    //if there are more notifications with the same tag received at the same time
-    //only the latest one will be displayed
-    tag: '1',
-    data: 'Hello there',
+    tag: data.place_id,
+    data: data.content,
     actions: [
-      { action: 'view', title: 'View it', /*icon:*/ },
-      { action: 'later', title: 'See later', /*icon:*/ }
+      { action: 'later', title: 'Niice' }
     ]
   });
 });
 
 self.addEventListener('notificationclick', e => {
   console.log('Notification clicked!');
-  //you can also handle the click on actions here
   e.notification.close();
 })

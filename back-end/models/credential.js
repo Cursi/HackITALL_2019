@@ -4,8 +4,8 @@ const Credential = (sequelize, dataTypes) => {
         p256: dataTypes.STRING,
         auth: dataTypes.STRING,
     }, {
-        timestamps: false
-    })
+            timestamps: false
+        })
 }
 
 module.exports = Credential;

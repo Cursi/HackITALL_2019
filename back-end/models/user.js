@@ -9,8 +9,8 @@ const User = (sequelize, dataTypes) => {
             defaultValue: false
         }
     }, {
-        timestamps: false
-    })
+            timestamps: false
+        })
 }
 
 module.exports = User;
