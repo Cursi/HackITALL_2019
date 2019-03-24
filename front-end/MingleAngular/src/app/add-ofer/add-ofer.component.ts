@@ -53,7 +53,7 @@ export class AddOferComponent implements OnInit {
     this.dataService.genericRequest("/offer", "POST", {offer: this.offer}).subscribe(response => 
       {
       this.offers.push(response["newOffer"]);
-      this.dataService.genericRequest("/notification", "POST", {title: "asd"}).subscribe(response => 
+      this.dataService.genericRequest("/notification", "POST", {offer: this.offer}).subscribe(response => 
         {
         console.log(response);
       })
