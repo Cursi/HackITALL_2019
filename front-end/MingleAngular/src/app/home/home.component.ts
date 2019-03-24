@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { Router } from '@angular/router';
 // import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
 // import { google } from '@agm/core/services/google-maps-types';
 
@@ -10,7 +12,8 @@ import { DataService } from '../data.service';
 // import {} from 'googlemaps';
 
 // declare const google: any;
-import { Router } from '@angular/router';
+
+declare const M: any;
 
 @Component({
   selector: 'app-home',
@@ -23,6 +26,8 @@ export class HomeComponent implements OnInit
   constructor(private dataService: DataService, private router: Router) { }
 
   currentRadius = 100;
+  currentPlaces = null;
+  searchModalInstance = null;
 
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
@@ -63,17 +68,15 @@ export class HomeComponent implements OnInit
       fields: ['formatted_address', 'geometry', 'icon', 'id', 'name', 'permanently_closed', 'photos', 'place_id', 'plus_code', 'types', 'user_ratings_total']
     };
   
-    console.log(this.map.getCenter().lat() + " " + this.map.getCenter().lng());
-
     var placeService = new google.maps.places.PlacesService(this.map);
     placeService.nearbySearch(request, (result, status) =>
     {
-      console.log(status);
-
       if (status === google.maps.places.PlacesServiceStatus.OK)
       {
-        this.dataService.passRoutingData(result);
-        this.router.navigateByUrl("/places");
+        console.log(result);
+        this.currentPlaces = result;
+        this.searchModalInstance[0].open();
+        document.getElementById("modal1").click();
       }
     });
   }
@@ -86,9 +89,6 @@ export class HomeComponent implements OnInit
       return degrees * (pi/180);
     }
 
-    console.log(this.map.getCenter().lat() + " " + this.map.getCenter().lng());
-    console.log(this.map.getBounds().getNorthEast().lat() + " " + this.map.getBounds().getNorthEast().lng());
-    	
     var R = 6371e3; // metres
     var φ1 = degrees_to_radians(this.map.getCenter().lat());
     var φ2 = degrees_to_radians(this.map.getBounds().getNorthEast().lat());
@@ -103,20 +103,50 @@ export class HomeComponent implements OnInit
     var d = R * c;
 
     this.currentRadius = d / 4;
-    console.log(this.currentRadius);
   }
 
-  DebugZoom()
+  LoadProfile()
   {
-    setInterval(() =>
+    document.getElementById("profileCircle").setAttribute("src", localStorage.getItem("photo"));
+    document.getElementById("profileCircleNav").setAttribute("src", localStorage.getItem("photo"));
+    document.getElementById("profileNameNav").innerHTML = localStorage.getItem("firstname") + " " + localStorage.getItem("lastname");
+    document.getElementById("profileNameMail").innerHTML = localStorage.getItem("email");
+
+    var self = this;
+
+    document.addEventListener('DOMContentLoaded', function() 
     {
-      console.log(this.map.getZoom());
-    }, 500);
+      M.Sidenav.init(document.querySelectorAll('.sidenav'), null);
+      self.searchModalInstance = M.Modal.init(document.querySelectorAll(".modal"), {dismissible: false});
+    });
+  }
+
+  GoogleSignOut()
+  {
+    localStorage.clear();
+    document.getElementsByClassName("sidenav-overlay")[0].setAttribute("style", "display: none;");
+    this.router.navigateByUrl("");
+  }
+
+  AddToFollow()
+  {
+
+  }
+
+  OpenDirectionsLink(data)
+  {
+    window.open("https://maps.google.com/?q=" + data);
+  }
+
+  OpenMenuLink()
+  {
+    window.open(this.dataService.metaConsts.baseURL + "/menu");
   }
 
   ngOnInit()
   {
+    console.log(localStorage);
     this.LoadMap();
-    // this.DebugZoom();
+    this.LoadProfile();
   }
 }

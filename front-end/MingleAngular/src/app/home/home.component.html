@@ -7,9 +7,44 @@
 
 <div #gmap id="map"></div>
 
-<a id="selectRangeBtn" class="waves-effect waves-light btn" (click)="SearchInRange()">
+<a id="selectRangeBtn" data-target="modal1" class="waves-effect waves-light btn" (click)="SearchInRange()">
   <i class="material-icons left">location_searching</i>
   Search
 </a>
 
 <div id="rangeCircle"></div>
+
+  <img id="profileCircle" data-target="slide-out" class="sidenav-trigger">
+
+<div id="slide-out" class="sidenav">
+  <img id="profileCircleNav">
+  <div id="profileNameNav"></div>
+  <div id="profileNameMail"></div>
+  <br>
+  <div class="navBtn">Followers</div>
+  <div class="navBtn">History</div>
+  <div class="navBtn" id="signOutBtn" (click)="GoogleSignOut()">Sign out</div>
+</div>
+
+<div id="modal1" class="modal">
+  <i id="backModal1Btn" class="material-icons modal-close">arrow_back</i> 
+  <span id="resultsTitle">Search results</span>
+  <ul>
+    <li *ngFor="let place of currentPlaces">
+      <div *ngIf="place.photos !== undefined" class="row">
+          <div class="col s12 m6">
+            <div class="card">
+              <div class="card-image">
+                <img src="{{place.photos[0].getUrl()}}">
+                <span class="card-title">{{place.name}} (<i class="material-icons" style="vertical-align: sub">star</i><span style="vertical-align: text-top">{{place.rating}}</span>)</span>
+                <a class="followBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">notifications_active</i></a>
+                <a (click)="OpenDirectionsLink(place.name)" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">directions</i></a>
+                <a (click)="OpenMenuLink()" style="left: 60px;" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">restaurant_menu</i></a>
+                <a style="left: 120px;" class="othersBtn btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">local_play</i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </li>
+  </ul>
+</div>
