@@ -15,13 +15,13 @@ app.use(fileupload());
 
 db.sync();
 
-//menu static
+//static
 app.use('/menu', express.static("files"))
 app.use('/push', (req, res) => {return res.sendFile(__dirname + "/index.html");});
-
 app.use(express.static('front'));
+
 app.use(router);
 
-app.listen(CONSTANTS.PORT, () => {
+app.listen(CONSTANTS.PORT, /*"192.168.43.235",*/ () => {
     console.log("server started on: http://localhost:" + CONSTANTS.PORT);
 });
