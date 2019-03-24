@@ -10,6 +10,7 @@ import { DataService } from '../data.service';
 // import {} from 'googlemaps';
 
 // declare const google: any;
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,7 @@ import { DataService } from '../data.service';
 
 export class HomeComponent implements OnInit 
 {
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private router: Router) { }
 
   currentRadius = 100;
 
@@ -71,7 +72,8 @@ export class HomeComponent implements OnInit
 
       if (status === google.maps.places.PlacesServiceStatus.OK)
       {
-        console.log(result);
+        this.dataService.passRoutingData(result);
+        this.router.navigateByUrl("/places");
       }
     });
   }
