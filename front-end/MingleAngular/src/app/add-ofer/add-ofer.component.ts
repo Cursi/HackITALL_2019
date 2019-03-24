@@ -15,10 +15,6 @@ export class AddOferComponent implements OnInit {
   expanded = true;
   offer = "";
   constructor(private dataService: DataService) {
-    this.offers.push({message: "offer1"});
-    this.offers.push({message: "offer1"});
-    this.offers.push({message: "offer1"});
-
     this.dataService.genericRequest("/offer/owner", "GET").subscribe(response => {
       this.offers = response["offers"];
     })

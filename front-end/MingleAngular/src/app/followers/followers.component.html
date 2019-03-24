@@ -1,0 +1,10 @@
+<div id="bigContainer">
+    <a id="newOfferBtn" class="waves-effect waves-light">Following</a>
+    <br><br>
+    <div class="currentFollowers">
+      <ul *ngFor="let follower of followers; let index" class="collection with-header">
+          <li class="collection-item"><div>{{follower.name}}<a class="secondary-content">
+          <i (click)="deleteOffer(index)" class="deleteOffer material-icons">delete</i></a></div></li>
+      </ul>
+    </div>
+  </div>

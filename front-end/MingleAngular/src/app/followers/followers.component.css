@@ -1,0 +1,24 @@
+
+.currentFollowers {
+    text-align: center;
+}
+
+.currentFollowers p {
+    display: inline-block;
+}
+
+.offerName {
+    float: left;
+}
+
+.deleteOffer
+{
+    color: rgb(216, 34, 89);
+    cursor: pointer;
+}
+
+#bigContainer
+{
+    width: 100%;
+    text-align: center;
+}

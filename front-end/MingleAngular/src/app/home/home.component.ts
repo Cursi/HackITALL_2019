@@ -76,8 +76,8 @@ export class HomeComponent implements OnInit
         this.dataService.genericRequest("/place/all/filter", "POST", {places: result})
         .subscribe(resp => {
           if(resp["places"].length){
-            this.searchModalInstance[0].open();
             this.currentPlaces = this.MergeResults(result, resp);
+            this.searchModalInstance[0].open();
   
             document.getElementById("modal1").click();
           }
@@ -144,6 +144,11 @@ export class HomeComponent implements OnInit
     localStorage.clear();
     document.getElementsByClassName("sidenav-overlay")[0].setAttribute("style", "display: none;");
     this.router.navigateByUrl("");
+  }
+
+  OpenFollowers(){
+    document.getElementsByClassName("sidenav-overlay")[0].setAttribute("style", "display: none;");
+    this.router.navigateByUrl("/followers");
   }
 
   AddToFollow(id)
