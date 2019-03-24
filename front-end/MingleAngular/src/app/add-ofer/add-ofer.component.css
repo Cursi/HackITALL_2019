@@ -38,3 +38,23 @@
     margin-top:15px;
     background-color: rgb(216, 34, 89);
 }
+
+#backBtn
+{
+    font-size: 26px;
+    margin-left: 15px;
+    margin-right: 5px;
+    margin-top: 15px;
+    
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#resultsTitle
+{
+    font-size: 22px;
+    font-weight: 400;
+    vertical-align: super;
+    margin-left: 10px;
+    color:rgb(216, 34, 89);
+}

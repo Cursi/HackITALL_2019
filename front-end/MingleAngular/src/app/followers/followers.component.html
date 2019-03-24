@@ -1,5 +1,8 @@
 <div id="bigContainer">
-    <a id="newOfferBtn" class="waves-effect waves-light">Following</a>
+    <div style="float: left;">
+        <i [routerLink]="['../home']" id="backBtn" class="material-icons modal-close">arrow_back</i> 
+        <span id="resultsTitle">Currently following</span>
+    </div>
     <br><br>
     <div class="currentFollowers">
       <ul *ngFor="let follower of followers; let index" class="collection with-header">

@@ -26,8 +26,8 @@ export class HomeComponent implements OnInit
   constructor(private dataService: DataService, private router: Router) { }
 
   currentRadius = 100;
-  currentPlaces = null;
-  searchModalInstance = null;
+  currentPlaces: any;
+  searchModalInstance: any;
 
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
@@ -67,6 +67,8 @@ export class HomeComponent implements OnInit
       location: this.map.getCenter(),
       fields: ['formatted_address', 'geometry', 'icon', 'id', 'name', 'permanently_closed', 'photos', 'place_id', 'plus_code', 'types', 'user_ratings_total']
     };
+
+    var modal = document.getElementById("modal1");
   
     var placeService = new google.maps.places.PlacesService(this.map);
     placeService.nearbySearch(request, (result, status) =>
@@ -74,23 +76,26 @@ export class HomeComponent implements OnInit
       if (status === google.maps.places.PlacesServiceStatus.OK)
       {
         this.dataService.genericRequest("/place/all/filter", "POST", {places: result})
-        .subscribe(resp => {
-          if(resp["places"].length){
+        .subscribe(resp => 
+        {
+          if(resp["places"].length)
+          {
             this.currentPlaces = this.MergeResults(result, resp);
+            console.log(this.searchModalInstance);
             this.searchModalInstance[0].open();
-  
-            document.getElementById("modal1").click();
+            modal.click();
           }
-        })
-       
+        });
       }
     });
   }
 
-  MergeResults(result: any, resp: any) : any {
+  MergeResults(result: any, resp: any) : any 
+  {
     for(let i = 0; i < resp.places.length; i++){
       for(let j = 0; j < result.length; j++){
-        if(resp.places[i].mapsId === result[j].id){
+        if(resp.places[i].mapsId === result[j].id)
+        {
           resp.places[i].photos = result[j].photos;
         }
       }
@@ -130,25 +135,23 @@ export class HomeComponent implements OnInit
     document.getElementById("profileNameNav").innerHTML = localStorage.getItem("firstname") + " " + localStorage.getItem("lastname");
     document.getElementById("profileNameMail").innerHTML = localStorage.getItem("email");
 
-    var self = this;
-
-    document.addEventListener('DOMContentLoaded', function() 
-    {
-      M.Sidenav.init(document.querySelectorAll('.sidenav'), null);
-      self.searchModalInstance = M.Modal.init(document.querySelectorAll(".modal"), {dismissible: false});
-    });
+    M.Sidenav.init(document.querySelectorAll('.sidenav'), null);
+    this.searchModalInstance = M.Modal.init(document.querySelectorAll(".modal"), {dismissible: false});
   }
 
   GoogleSignOut()
   {
     localStorage.clear();
+
+    console.log(document.getElementsByClassName("sidenav-overlay")[0]);
+
     document.getElementsByClassName("sidenav-overlay")[0].setAttribute("style", "display: none;");
-    this.router.navigateByUrl("");
+    setTimeout(() => this.router.navigateByUrl(""), 200);
   }
 
   OpenFollowers(){
     document.getElementsByClassName("sidenav-overlay")[0].setAttribute("style", "display: none;");
-    this.router.navigateByUrl("/followers");
+    setTimeout(() => this.router.navigateByUrl("/followers"), 200);
   }
 
   AddToFollow(id)
@@ -164,10 +167,9 @@ export class HomeComponent implements OnInit
     window.open("https://maps.google.com/?q=" + data);
   }
 
-  OpenMenuLink(path)
+  OpenMenuLink(menuPath)
   {
-    console.log(path);
-    window.open(this.dataService.metaConsts.baseURL + "/menu/" + path);
+    window.open(this.dataService.metaConsts.baseURL + "/menu/" + menuPath);
   }
 
   OpenOffers(id)
@@ -178,7 +180,6 @@ export class HomeComponent implements OnInit
 
   ngOnInit()
   {
-    console.log(localStorage);
     this.LoadMap();
     this.LoadProfile();
   }

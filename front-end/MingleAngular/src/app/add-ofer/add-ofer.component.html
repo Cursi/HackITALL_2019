@@ -11,6 +11,10 @@
   </div>
 
 <div id="bigContainer">
+  <div *ngIf="isOwner == '0'" style="float: left;">
+      <i [routerLink]="['../home']" id="backBtn" class="material-icons modal-close">arrow_back</i> 
+      <span id="resultsTitle">Available offers</span>
+  </div>
   <a *ngIf="isOwner == '1'" id="newOfferBtn" data-target="newOfferModal" class="modal-trigger waves-effect waves-light btn"><i class="material-icons left">local_play</i>New offer</a>
   <br><br>
   <div class="currentOffers">
