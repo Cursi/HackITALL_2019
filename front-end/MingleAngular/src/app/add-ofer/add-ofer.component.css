@@ -1,0 +1,27 @@
+
+.addOffer{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.currentOffers{
+    text-align: center;
+}
+
+.currentOffers p {
+    display: inline-block;
+}
+
+.offerName {
+    float: left;
+}
+
+.deleteOffer{
+    float: right;
+    cursor: pointer;
+    padding-right: 5px;
+}

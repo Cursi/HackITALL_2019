@@ -1,0 +1,16 @@
+<div>
+  <div class="addOffer">
+    <span>+</span>
+    <span (click)="expand()">New Offer</span>
+  </div>
+  <div *ngIf="expanded">
+    <input [(ngModel)]="offer">
+    <button (click)="addOffer()">Submit</button>
+  </div>
+  <div class="currentOffers">
+    <ul *ngFor="let offer of offers; let index">
+      <p>{{offer.offer}}</p>
+      <p class="deleteOffer" (click)="deleteOffer(index)">delete</p>
+    </ul>
+  </div>
+</div>

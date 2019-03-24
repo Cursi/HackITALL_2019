@@ -9,7 +9,7 @@ import { DataService } from '../data.service';
 export class PlacesListComponent implements OnInit {
 
   private places: Object[];
-  private isLoaded: Boolean = false;
+  public isLoaded: Boolean = false;
   constructor(private dataService: DataService) {
     let self = this;
     this.dataService.getData.subscribe((result: Object[]) => {
